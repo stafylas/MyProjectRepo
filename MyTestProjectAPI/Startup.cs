@@ -44,6 +44,17 @@ namespace MyTestProjectAPI
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                     };
                 });
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("https://localhost:4200") // Update with your Angular dev server URL
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+            });
+
+          
             services.AddHttpClient();
             services.AddMvc();
             services.AddControllers();
@@ -63,7 +74,8 @@ namespace MyTestProjectAPI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            // Configure method
+            app.UseCors();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

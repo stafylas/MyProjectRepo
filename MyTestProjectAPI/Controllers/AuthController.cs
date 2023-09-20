@@ -31,7 +31,15 @@ namespace MyTestProjectAPI.Controllers
             if (authUser != null)
             {
                 var token = GenerateToken(authUser);
-                return Ok(token);
+
+                var response = new AuthenticationResponse
+                {
+                    AccessToken = token, // Set the access token
+                    TokenType = "Bearer", // Set the token type
+                    ExpiresIn = 3600 // Set the expiration time (in seconds)
+                };
+
+                return Ok(response); // Return the response objec
             }
             return NotFound("User Not Found");
         }
@@ -53,7 +61,7 @@ namespace MyTestProjectAPI.Controllers
                 _configuration["Jwt:Issuer"],
                 _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddDays(1),
+                expires: DateTime.Now.AddHours(1),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
