@@ -23,6 +23,7 @@ namespace MyTestProjectAPI.Controllers
 
        [HttpGet("products")]
        [Authorize]
+       //With the [authorize] we give access only in authorized people
         public async Task<IActionResult> GetProductsAsync()
         {
 

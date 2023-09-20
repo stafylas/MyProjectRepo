@@ -18,6 +18,7 @@ namespace MyTestProjectAPI.Controllers
     public class AuthController : ControllerBase
     {
         private IConfiguration _configuration;
+        // Constructor to inject IConfiguration
         public AuthController(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -26,12 +27,15 @@ namespace MyTestProjectAPI.Controllers
         [HttpPost]
         public IActionResult Auth([FromBody] LoginUser user)
         {
+            // Authenticate the user
             var authUser = Authenticate(user);
 
             if (authUser != null)
             {
+                // Generate a JWT token
                 var token = GenerateToken(authUser);
 
+                // Create a response object with token information
                 var response = new AuthenticationResponse
                 {
                     AccessToken = token, // Set the access token
@@ -44,6 +48,7 @@ namespace MyTestProjectAPI.Controllers
             return NotFound("User Not Found");
         }
 
+        // Method to generate a JWT token
         private string GenerateToken(User user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -57,6 +62,7 @@ namespace MyTestProjectAPI.Controllers
                  new Claim(ClaimTypes.Surname, user.Surname),
             };
 
+          
             var token = new JwtSecurityToken(
                 _configuration["Jwt:Issuer"],
                 _configuration["Jwt:Audience"],
@@ -66,9 +72,10 @@ namespace MyTestProjectAPI.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+        // Method to authenticate a user
         private User Authenticate(LoginUser user)
         {
-            //elegxoume an o user pou eisagoume iparxei sta default dedomena mas
+            // Check if the user exists in the default data
             var currentUser = Helpers.Data.Users.FirstOrDefault(
                 u =>
                 u.UserName.ToLower() == user.UserName.ToLower() &&
