@@ -43,18 +43,18 @@ namespace MyTestProjectAPI.Controllers
 
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Name),
-                new Claim(ClaimTypes.Surname, user.Surname),
-                new Claim(ClaimTypes.Email, user.Email),
+                 new Claim(ClaimTypes.NameIdentifier, user.UserName),
+                 new Claim(ClaimTypes.GivenName, user.Name),
+                 new Claim(ClaimTypes.Email, user.Email),
+                 new Claim(ClaimTypes.Surname, user.Surname),
             };
-            var token = new JwtSecurityToken
-                (
+
+            var token = new JwtSecurityToken(
                 _configuration["Jwt:Issuer"],
-                _configuration["Audience"],
-                claims,
-                expires: DateTime.Now.AddHours(1),
-                signingCredentials: credentials
-                );
+                _configuration["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
@@ -63,7 +63,7 @@ namespace MyTestProjectAPI.Controllers
             //elegxoume an o user pou eisagoume iparxei sta default dedomena mas
             var currentUser = Helpers.Data.Users.FirstOrDefault(
                 u =>
-                u.Name.ToLower() == user.UserName.ToLower() &&
+                u.UserName.ToLower() == user.UserName.ToLower() &&
                 u.Password == user.Password);
 
             if(currentUser != null)

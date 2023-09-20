@@ -9,17 +9,19 @@ namespace MyTestProjectAPI.Helpers
         {
             new User()
             {
+                UserName ="user1",
                 Name = "Kostas",
                 Surname = "Papadopoulos",
                 Email = "exampleMail1@mail.gr",
-                Password = "123456789",
+                Password = "123456789"
             },
              new User()
             {
+                UserName ="user2",
                 Name = "Nikos",
                 Surname = "Nikolaidis",
                 Email = "exampleMail2@mail.gr",
-                Password = "123456",
+                Password = "123456"
             }
         };
     }

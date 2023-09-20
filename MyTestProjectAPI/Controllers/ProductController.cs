@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyTestProjectAPI.Models;
 using MyTestProjectAPI.Services;
 using MyTestProjectAPI.Services.Interfaces;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 
 namespace MyTestProjectAPI.Controllers
@@ -18,8 +20,10 @@ namespace MyTestProjectAPI.Controllers
         {
             _productService = productService;
         }
-        [HttpGet("products")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+
+       [HttpGet("products")]
+       [Authorize]
+        public async Task<IActionResult> GetProductsAsync()
         {
 
             var result = await this._productService.GetProducts();

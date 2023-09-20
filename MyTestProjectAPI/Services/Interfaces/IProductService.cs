@@ -7,6 +7,7 @@ namespace MyTestProjectAPI.Services.Interfaces
 {
     public interface IProductService
     {
-        Task<ActionResult<IEnumerable<Product>>> GetProducts();
+        Task<IEnumerable<Product>> GetProducts();
+
     }
 }
