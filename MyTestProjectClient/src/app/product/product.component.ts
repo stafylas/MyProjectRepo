@@ -20,10 +20,10 @@ export class ProductComponent implements OnInit{
   getProducts() {
     this.productService.getProducts().subscribe(
       (response: product[]) => {
-        // Handle success response
+      
         this.products = response; // Assign the response to the property
         console.log(this.products);
-        // You can also store the token or do other actions here
+       
       },
       (error) => {
         // Handle error response
